@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Фонарик</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="title_activity_main">Головна</string>
+    <string name="error">Помилка</string>
+    <string name="no_flash">Вибачте, Ваш пристрiй без спалаху!</string>
+</resources>

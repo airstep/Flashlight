@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.tgs.flashlight"
+        minSdkVersion 8
+        targetSdkVersion 21
+        versionCode 3
+        versionName "1.3"
+    }
+    File signFile = rootProject.file('keystore.properties')
+    if (signFile.exists()) {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(signFile))
+        signingConfigs {
+            release {
+                storeFile file(properties['keystore'])
+                storePassword properties['storePassword']
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                def apk = variant.outputs.get(0).outputFile;
+                def dir = file(apk.parent).absolutePath + File.separator
+                def newPath = dir + "tgs.flashlight_" + defaultConfig.versionName + ".apk"
+                variant.outputs.get(0).outputFile = new File(newPath)
+            }
+
+            minifyEnabled true
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.afollestad:material-dialogs:0.5.9'
+}
